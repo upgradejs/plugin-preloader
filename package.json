@@ -1,0 +1,30 @@
+{
+  "name": "plugins-preloader",
+  "version": "1.0.0",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc && node esbuild-config.mjs"
+  },
+  "types": "dist/types/index.d.ts",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.cjs",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.cjs"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "esbuild": "^0.17.11",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.4.0",
+    "typescript": "^4.9.5"
+  }
+}
