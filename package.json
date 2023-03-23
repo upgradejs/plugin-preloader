@@ -12,7 +12,8 @@
   "scripts": {
     "test": "jest",
     "prebuild": "rimraf dist",
-    "build": "npx ts-node scripts/build.ts"
+    "build": "npx ts-node scripts/build.ts",
+    "prepublishOnly": "npm run build"
   },
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
