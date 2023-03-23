@@ -1,30 +1,43 @@
+import { PluginItem, PluginOptions, PluginTarget, TransformOptions } from "@babel/core";
+import { Linter } from "eslint";
+
 export type Name = string;
 export type NameInRegistry = string;
 export type SemanticVersion = string;
-export type Options = Record<string, unknown>;
 export type NameWithVersion = [Name, SemanticVersion];
 export type Entity = Name | NameWithVersion;
 
+type BabelPluginExtended =
+  | PluginItem
+  | [PluginTarget, PluginOptions, string | undefined, SemanticVersion | undefined];
+
+export interface BabelConfigBase extends Omit<TransformOptions, "plugins" | "presets" | "env"> {
+  plugins?: BabelPluginExtended | BabelPluginExtended[] | null;
+  presets?: BabelPluginExtended | BabelPluginExtended[] | null;
+}
+
+export interface BabelConfig extends BabelConfigBase {
+  env?: Record<string, BabelConfigBase>;
+}
+
+export interface ESLintConfig extends Omit<Linter.BaseConfig, "parser" | "extends" | "plugins"> {
+  parser?: Entity;
+  extends?: Entity | Entity[];
+  plugins?: Entity[];
+}
+
 export interface Preload {
-	babel?: {
-    plugins?: Entity[];
-    presets?: Entity[];
-	};
-	eslint?: {
-		parser?: Entity;
-		extends?: Entity[];
-    plugins?: Entity[];
-	};
-  performAsync?: boolean;
+  babel?: BabelConfig;
+  eslint?: ESLintConfig;
 }
 
 export interface MapEntity {
-	nameInRegistry: NameInRegistry
+  nameInRegistry: NameInRegistry;
 }
 
 export interface MapEntityWithVersions extends MapEntity {
-	currentVersion?: SemanticVersion;
-	desiredVersion: SemanticVersion;
+  currentVersion?: SemanticVersion;
+  desiredVersion: SemanticVersion;
 }
 
 export type Map = Record<Name, MapEntity>;

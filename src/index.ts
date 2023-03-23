@@ -1,88 +1,93 @@
 import { MapEntityWithVersions, Preload } from "./types";
-import { babelMap, eslintMap } from './maps';
-import { getEntitiesMapWithVersionsSync, getEntitiesMapWithVersionsAsync } from "./getEntitiesMapWithVersions";
-import { wrappers } from "./utils";
+import { babelMap, eslintMap } from "./maps";
+import {
+  getEntitiesMapWithVersionsSync,
+  getEntitiesMapWithVersionsAsync,
+} from "./getEntitiesMapWithVersions";
+import { wrappers, transform } from "@core/utils";
+import log from "fancy-log";
 
 async function asyncPreload({ babel, eslint }: Preload) {
   const checkedEntities: MapEntityWithVersions[] = [];
 
-	if (babel) {
-		if (babel.plugins) {
-      const pluginsMap = await getEntitiesMapWithVersionsAsync(babel.plugins, babelMap.plugins);
-      checkedEntities.push(...Object.values(pluginsMap));
-    }
-
-		if (babel.presets) {
-      const presetsMap = await getEntitiesMapWithVersionsAsync(babel.presets, babelMap.presets);
-      checkedEntities.push(...Object.values(presetsMap))
-		}
-	}
-
-	if (eslint) {
-		if (eslint.extends) {
-      const extendsMap = await getEntitiesMapWithVersionsAsync(eslint.extends, eslintMap.extendsMap);
-      checkedEntities.push(...Object.values(extendsMap))
-		}
-
-		if (eslint.parser) {
-      const parserMap = await getEntitiesMapWithVersionsAsync([eslint.parser], eslintMap.parser);
-      checkedEntities.push(...Object.values(parserMap))
-		}
-
-    if (eslint.plugins) {
-      const pluginsMap = await getEntitiesMapWithVersionsAsync(eslint.plugins, eslintMap.plugins);
-      checkedEntities.push(...Object.values(pluginsMap))
-    }
-	}
-
-  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion, currentVersion }) => acc + `${nameInRegistry}@${desiredVersion} `, '');
-
-  const command = `npm install ${packagesToInstall} --no-save --no-audit`;
-
-  const output = (await wrappers.asyncExec(command)).stdout;
-
-  console.log(output);
-}
-
-function syncPreload({ babel, eslint, performAsync = true }: Preload) {
-  const checkedEntities: MapEntityWithVersions[] = [];
-
   if (babel) {
-    if (babel.plugins) {
-      const pluginsMap = getEntitiesMapWithVersionsSync(babel.plugins, babelMap.plugins);
-      checkedEntities.push(...Object.values(pluginsMap));
-    }
-
-    if (babel.presets) {
-      const presetsMap = getEntitiesMapWithVersionsSync(babel.presets, babelMap.presets);
-      checkedEntities.push(...Object.values(presetsMap))
-    }
+    const pluginsAndPresets = transform.babelConfig(babel);
+    const pluginsAndPresetsMap = await getEntitiesMapWithVersionsAsync(pluginsAndPresets, {
+      ...babelMap.plugins,
+      ...babelMap.presets,
+    });
+    checkedEntities.push(...Object.values(pluginsAndPresetsMap));
   }
 
   if (eslint) {
-    if (eslint.extends) {
-      const extendsMap = getEntitiesMapWithVersionsSync(eslint.extends, eslintMap.extendsMap);
-      checkedEntities.push(...Object.values(extendsMap))
-    }
-
-    if (eslint.parser) {
-      const parserMap = getEntitiesMapWithVersionsSync([eslint.parser], eslintMap.parser);
-      checkedEntities.push(...Object.values(parserMap))
-    }
-
-    if (eslint.plugins) {
-      const pluginsMap = getEntitiesMapWithVersionsSync(eslint.plugins, eslintMap.plugins);
-      checkedEntities.push(...Object.values(pluginsMap))
-    }
+    const pluginsExtendsAndParser = transform.eslintConfig(eslint);
+    const pluginsExtendsAndParserMap = await getEntitiesMapWithVersionsAsync(
+      pluginsExtendsAndParser,
+      { ...eslintMap.extendsMap, ...eslintMap.parser, ...eslintMap.plugins }
+    );
+    checkedEntities.push(...Object.values(pluginsExtendsAndParserMap));
   }
 
-  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion, currentVersion }) => acc + `${nameInRegistry}@${desiredVersion} `, '');
+  if (checkedEntities.length) {
+    log("Packages to install:");
+  } else {
+    log("No packages need to be installed");
+    return;
+  }
 
-  const command = `npm install ${packagesToInstall} --no-save --no-audit`;
+  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion }) => {
+    const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
+    log(`- ${packageWithVersion}`);
+    return acc + `${packageWithVersion} `;
+  }, "");
 
-  const output = wrappers.syncExec(command, { encoding: 'utf8' });
+  const command = `npm install ${packagesToInstall.trim()} --no-save --no-audit`;
 
-  console.log(output);
+  const output = (await wrappers.asyncExec(command)).stdout;
+
+  log(output.trim());
+}
+
+function syncPreload({ babel, eslint }: Preload) {
+  const checkedEntities: MapEntityWithVersions[] = [];
+
+  if (babel) {
+    const pluginsAndPresets = transform.babelConfig(babel);
+    const pluginsAndPresetsMap = getEntitiesMapWithVersionsSync(pluginsAndPresets, {
+      ...babelMap.plugins,
+      ...babelMap.presets,
+    });
+    checkedEntities.push(...Object.values(pluginsAndPresetsMap));
+  }
+
+  if (eslint) {
+    const pluginsExtendsAndParser = transform.eslintConfig(eslint);
+    const pluginsExtendsAndParserMap = getEntitiesMapWithVersionsSync(pluginsExtendsAndParser, {
+      ...eslintMap.extendsMap,
+      ...eslintMap.parser,
+      ...eslintMap.plugins,
+    });
+    checkedEntities.push(...Object.values(pluginsExtendsAndParserMap));
+  }
+
+  if (checkedEntities.length) {
+    log("Packages to install:");
+  } else {
+    log("No packages need to be installed");
+    return;
+  }
+
+  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion }) => {
+    const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
+    log(`- ${packageWithVersion}`);
+    return acc + `${packageWithVersion} `;
+  }, "");
+
+  const command = `npm install ${packagesToInstall.trim()} --no-save --no-audit`;
+
+  const output = wrappers.syncExec(command, { encoding: "utf8" });
+
+  log(output.trim());
 }
 
 export { syncPreload, asyncPreload };

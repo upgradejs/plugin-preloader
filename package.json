@@ -1,30 +1,61 @@
 {
-  "name": "plugins-preloader",
-  "version": "1.0.0",
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "tsc && node esbuild-config.mjs"
+  "name": "plugin-preloader",
+  "version": "0.1.0",
+  "author": "Kostiantyn Popovych <kostiantyn.popovych.exp@gmail.com> (https://github.com/KostiantynPopovych)",
+  "description": "This library dynamically preloads and installs Babel and ESLint plugins and presets based on your configuration, streamlining the build process without the need to include them as dependencies in your project.",
+  "repository": "git@github.com:upgradejs/plugin-preloader",
+  "bugs": "https://github.com/upgradejs/plugin-preloader/issues",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
   },
-  "types": "dist/types/index.d.ts",
-  "module": "dist/esm/index.js",
-  "main": "dist/cjs/index.cjs",
+  "scripts": {
+    "test": "jest",
+    "prebuild": "rimraf dist",
+    "build": "npx ts-node scripts/build.ts"
+  },
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "default": "./dist/cjs/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
     }
   },
+  "files": [
+    "src/",
+    "dist/",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "babel",
+    "eslint",
+    "preload",
+    "dynamic-install",
+    "plugins",
+    "presets",
+    "automation"
+  ],
   "devDependencies": {
+    "@types/babel__core": "^7.20.0",
+    "@types/eslint": "^8.21.3",
+    "@types/fancy-log": "^2.0.0",
+    "@types/jest": "^29.5.0",
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
-    "esbuild": "^0.17.11",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "fancy-log": "^2.0.0",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
+    "ts-jest": "^29.0.5",
+    "tsup": "^6.7.0",
     "typescript": "^4.9.5"
   }
 }
