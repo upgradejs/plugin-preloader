@@ -1,6 +1,6 @@
 {
   "name": "plugin-preloader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Kostiantyn Popovych <kostiantyn.popovych.exp@gmail.com> (https://github.com/KostiantynPopovych)",
   "description": "This library dynamically preloads and installs Babel and ESLint plugins and presets based on your configuration, streamlining the build process without the need to include them as dependencies in your project.",
   "repository": "git@github.com:upgradejs/plugin-preloader",
