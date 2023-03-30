@@ -10,7 +10,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "prettier"],
+  plugins: ["@typescript-eslint"],
   rules: {
     "prettier/prettier": [
       "error",
@@ -25,4 +25,5 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
   },
+  ignorePatterns: ["node_modules/", "dist/", "coverage/"],
 };
