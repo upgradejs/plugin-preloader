@@ -70,26 +70,30 @@ syncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
 
 `syncPreload({ babel, eslint })`
 - Parameters:
-  - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
-  - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
+  - Object with the following properties:
+    - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
+    - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
 - Returns: `void`
 - Description: Installs the required packages synchronously based on the Babel and ESLint configurations.
 
 `asyncPreload({ babel, eslint })`
 - Parameters:
-  - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
-  - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
+  - Object with the following properties:
+    - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
+    - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
 - Returns: `Promise<void>`
 - Description: Installs the required packages asynchronously based on the Babel and ESLint configurations.
 
 ## Known Issues
-- **Incompatibility with `pnpm` package manager:** This project may not function correctly with the `pnpm` package manager. It is recommended to use `npm` or `yarn` for better compatibility and a smoother experience.
+- **Incompatibility with `pnpm` package manager:** This project may not function correctly with the `pnpm` package manager. It is recommended to use `npm` or `yarn` for better compatibility and a smoother experience
 
-- **Possible disruption of existing dependencies:** Due to the complex nature of the installation process, this project could potentially break already installed dependencies. As a result, your project might not build as expected and may require reinstalling the node modules.
+- **Possible disruption of existing dependencies:** Due to the complex nature of the installation process, this project could potentially break already installed dependencies. As a result, your project might not build as expected and may require reinstalling the node modules
 
-- **Restoring the initial node modules structure:** If you encounter issues with your node modules, you can execute the npm prune or yarn install commands to restore the initial node modules structure and resolve any discrepancies. This will help ensure your project builds correctly after using the library.
+- **Restoring the initial node modules structure:** If you encounter issues with your node modules, you can execute the npm prune or yarn install commands to restore the initial node modules structure and resolve any discrepancies. This will help ensure your project builds correctly after using the library
 
-- **Babel plugins/presets definition methods:** This project supports only string as the first item in the Babel plugin/preset definition array. If you use a different method, the library will not be able to install the required packages.
+- **Babel plugins/presets definition methods:** This project supports only string as the first item in the Babel plugin/preset definition array. If you use a different method, the library will not be able to install the required packages
+
+- **Lack of support for plugins/presets:** This project has limited support for Babel/ESLint plugins and presets. If you use a plugin/preset not supported by the library, it will not be installed. The supported Babel plugins and presets can be found and added [here](https://github.com/upgradejs/plugin-preloader/tree/5c993bd8110dec4b10d6741854babf3d07692a0e/src/maps/babel). The supported ESLint plugins, extends, and parsers can be found and added [here](https://github.com/upgradejs/plugin-preloader/tree/5c993bd8110dec4b10d6741854babf3d07692a0e/src/maps/eslint)
 
 ## Development
 In order to start contributing to `plugin-preloader`, you can follow these steps: [CONTRIBUTING.md](CONTRIBUTING.md)
