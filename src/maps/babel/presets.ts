@@ -7,6 +7,9 @@ const presets: Map = {
   "@babel/preset-react": {
     nameInRegistry: "@babel/preset-react",
   },
+  "@babel/preset-flow": {
+    nameInRegistry: "@babel/preset-flow",
+  },
 };
 
 export default presets;
