@@ -50,13 +50,13 @@ describe("getEntitiesMapWithVersionsSync", () => {
       },
       "plugin:@typescript-eslint/recommended": {
         nameInRegistry: "@typescript-eslint/eslint-plugin",
-        currentVersion: "5.56.0",
-        desiredVersion: "5.56.0",
+        currentVersion: "5.58.0",
+        desiredVersion: "5.58.0",
       },
       "@typescript-eslint/parser": {
         nameInRegistry: "@typescript-eslint/parser",
-        currentVersion: "5.56.0",
-        desiredVersion: "5.56.0",
+        currentVersion: "5.58.0",
+        desiredVersion: "5.58.0",
       },
     });
   });
@@ -107,13 +107,13 @@ describe("getEntitiesMapWithVersionsAsync", () => {
       },
       "plugin:@typescript-eslint/recommended": {
         nameInRegistry: "@typescript-eslint/eslint-plugin",
-        currentVersion: "5.56.0",
-        desiredVersion: "5.56.0",
+        currentVersion: "5.58.0",
+        desiredVersion: "5.58.0",
       },
       "@typescript-eslint/parser": {
         nameInRegistry: "@typescript-eslint/parser",
-        currentVersion: "5.56.0",
-        desiredVersion: "5.56.0",
+        currentVersion: "5.58.0",
+        desiredVersion: "5.58.0",
       },
     });
   });

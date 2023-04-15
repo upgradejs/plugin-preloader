@@ -6,9 +6,13 @@ import {
 } from "./getEntitiesMapWithVersions";
 import { wrappers, transform } from "@core/utils";
 import log from "fancy-log";
+import getPackageDependencies from "@core/getPackageDependencies";
 
-async function asyncPreload({ babel, eslint }: Preload) {
+async function asyncPreload({ babel, eslint, withPackageDependencies }: Preload) {
   const checkedEntities: MapEntityWithVersions[] = [];
+  const packageDependencies: MapEntityWithVersions[] = withPackageDependencies
+    ? getPackageDependencies()
+    : [];
 
   if (babel) {
     const pluginsAndPresets = transform.babelConfig(babel);
@@ -35,11 +39,14 @@ async function asyncPreload({ babel, eslint }: Preload) {
     return;
   }
 
-  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion }) => {
-    const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
-    log(`- ${packageWithVersion}`);
-    return acc + `${packageWithVersion} `;
-  }, "");
+  const packagesToInstall = [...packageDependencies, ...checkedEntities].reduce(
+    (acc, { nameInRegistry, desiredVersion }) => {
+      const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
+      log(`- ${packageWithVersion}`);
+      return acc + `${packageWithVersion} `;
+    },
+    ""
+  );
 
   const command = `npm install ${packagesToInstall.trim()} --no-save --no-audit`;
 
@@ -48,8 +55,11 @@ async function asyncPreload({ babel, eslint }: Preload) {
   log(output.trim());
 }
 
-function syncPreload({ babel, eslint }: Preload) {
+function syncPreload({ babel, eslint, withPackageDependencies }: Preload) {
   const checkedEntities: MapEntityWithVersions[] = [];
+  const packageDependencies: MapEntityWithVersions[] = withPackageDependencies
+    ? getPackageDependencies()
+    : [];
 
   if (babel) {
     const pluginsAndPresets = transform.babelConfig(babel);
@@ -77,11 +87,14 @@ function syncPreload({ babel, eslint }: Preload) {
     return;
   }
 
-  const packagesToInstall = checkedEntities.reduce((acc, { nameInRegistry, desiredVersion }) => {
-    const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
-    log(`- ${packageWithVersion}`);
-    return acc + `${packageWithVersion} `;
-  }, "");
+  const packagesToInstall = [...packageDependencies, ...checkedEntities].reduce(
+    (acc, { nameInRegistry, desiredVersion }) => {
+      const packageWithVersion = `${nameInRegistry}@${desiredVersion}`;
+      log(`- ${packageWithVersion}`);
+      return acc + `${packageWithVersion} `;
+    },
+    ""
+  );
 
   const command = `npm install ${packagesToInstall.trim()} --no-save --no-audit`;
 

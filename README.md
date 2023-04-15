@@ -73,6 +73,7 @@ syncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
   - Object with the following properties:
     - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
     - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
+    - `withPackageDependencies`: `boolean` (optional) - if set to `true`, the library will also install the dependencies that are defined in the `package.json` file to prevent the accidental uninstallation of the required packages
 - Returns: `void`
 - Description: Installs the required packages synchronously based on the Babel and ESLint configurations.
 
@@ -81,6 +82,7 @@ syncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
   - Object with the following properties:
     - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
     - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
+    - `withPackageDependencies`: `boolean` (optional) - if set to `true`, the library will also install the dependencies that are defined in the `package.json` file to prevent the accidental uninstallation of the required packages 
 - Returns: `Promise<void>`
 - Description: Installs the required packages asynchronously based on the Babel and ESLint configurations.
 
