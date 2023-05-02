@@ -8,7 +8,7 @@ import { wrappers, transform } from "@core/utils";
 import log from "fancy-log";
 import getPackageDependencies from "@core/getPackageDependencies";
 
-async function asyncPreload({ babel, eslint, withPackageDependencies }: Preload) {
+async function asyncPreload({ babel, eslint, withPackageDependencies = true }: Preload) {
   const checkedEntities: MapEntityWithVersions[] = [];
   const packageDependencies: MapEntityWithVersions[] = withPackageDependencies
     ? getPackageDependencies()
@@ -55,7 +55,7 @@ async function asyncPreload({ babel, eslint, withPackageDependencies }: Preload)
   log(output.trim());
 }
 
-function syncPreload({ babel, eslint, withPackageDependencies }: Preload) {
+function syncPreload({ babel, eslint, withPackageDependencies = true }: Preload) {
   const checkedEntities: MapEntityWithVersions[] = [];
   const packageDependencies: MapEntityWithVersions[] = withPackageDependencies
     ? getPackageDependencies()
