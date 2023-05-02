@@ -1,5 +1,8 @@
 # main (unreleased)
 
+# 0.3.0
+- Add support for ESLint parser: `@babel/eslint-parser`
+
 # 0.2.0
 - Add support for Babel plugins: `@babel/plugin-transform-runtime`, `@babel/plugin-proposal-class-properties`, `@babel/plugin-proposal-export-namespace-from`, `styled-components`
 - Add support for Babel presets: `@babel/preset-flow`
