@@ -66,6 +66,7 @@ const { syncPreload } = require("plugin-preloader");
 syncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
 ```
 
+In addition, we have provided a sample project in the [example](https://github.com/upgradejs/plugin-preloader/tree/main/example) folder.
 ## API
 
 `syncPreload({ babel, eslint })`
