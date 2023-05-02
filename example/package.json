@@ -1,0 +1,10 @@
+{
+  "name": "plugin-preloader-example",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.21.5",
+    "commander": "^10.0.1",
+    "eslint": "^8.39.0",
+    "plugin-preloader": "latest"
+  }
+}
