@@ -29,6 +29,7 @@ export interface ESLintConfig extends Omit<Linter.BaseConfig, "parser" | "extend
 export interface Preload {
   babel?: BabelConfig;
   eslint?: ESLintConfig;
+  withPackageDependencies?: boolean;
 }
 
 export interface MapEntity {
