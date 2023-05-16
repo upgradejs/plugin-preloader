@@ -1,5 +1,8 @@
 # main (unreleased)
 
+# 0.3.1
+- Fix ESLint configuration in example project
+
 # 0.3.0
 - Add support for ESLint parser: `@babel/eslint-parser`
 
