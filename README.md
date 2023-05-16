@@ -4,7 +4,6 @@ This library offers a method for preloading Babel and ESLint packages according 
 
 ## Features
 - Automatically install Babel and ESLint packages based on their configuration files.
-- Sync and async preload methods.
 - Supports both latest and specific package versions.
 
 ## Installation
@@ -15,7 +14,7 @@ npm install --save-dev plugin-preloader
 ```
 
 ## Usage
-The syncPreload and asyncPreload functions can operate effectively with standard Babel and ESLint configurations, ensuring that each plugin, preset, parser, or extend is processed and installed at the most recent version.
+The `preload` function can operate effectively with standard Babel and ESLint configurations, ensuring that each plugin, preset, parser, or extend is processed and installed at the most recent version.
 
 To designate a specific version rather than the latest for Babel plugins and presets, you can use the fourth element in the plugin/preset definition array item, bypassing the second and third elements - `["@babel/preset-react", undefined, undefined, "7.0.0"]`.
 
@@ -47,23 +46,12 @@ const sampleEslintConfig: ESLintConfig = {
 };
 ```
 
-### Async Preload
-```typescript
-import { asyncPreload } from "plugin-preloader";
-
-async function main() {
-  await asyncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
-}
-
-main();
-```
-
-### Sync Preload
+### Preload
 
 ```javascript
-const { syncPreload } = require("plugin-preloader");
+const preload = require("plugin-preloader");
 
-syncPreload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
+preload({ babel: sampleBabelConfig, eslint: sampleEslintConfig });
 ```
 
 In addition, we have provided a sample project in the [example](https://github.com/upgradejs/plugin-preloader/tree/main/example) folder.
@@ -76,14 +64,6 @@ In addition, we have provided a sample project in the [example](https://github.c
     - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
 - Returns: `void`
 - Description: Installs the required packages synchronously based on the Babel and ESLint configurations.
-
-`asyncPreload({ babel, eslint })`
-- Parameters:
-  - Object with the following properties:
-    - `babel`: [BabelConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L19) object (optional)
-    - `eslint`: [ESLintConfig](https://github.com/upgradejs/plugin-preloader/blob/66d1433eae5dc09fdd47ef92f5b2423e2ce8b4f2/src/types/index.ts#L23) object (optional)
-- Returns: `Promise<void>`
-- Description: Installs the required packages asynchronously based on the Babel and ESLint configurations.
 
 ## Known Issues
 - **Incompatibility with `pnpm` package manager:** This project may not function correctly with the `pnpm` package manager. It is recommended to use `npm` or `yarn` for better compatibility and a smoother experience

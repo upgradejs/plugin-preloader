@@ -3,7 +3,7 @@ const { ESLint } = require("eslint");
 const { resolve, join } = require("path");
 const { promises: fs } = require("fs");
 const { parse } = require("@babel/core");
-const { asyncPreload } = require("plugin-preloader");
+const preload = require("plugin-preloader");
 
 const program = new Command();
 
@@ -49,7 +49,7 @@ async function analyze(filePath, { babelConfigPath, eslintConfigPath }) {
   const babelConfig = babelConfigPath ? require(babelConfigPath) : {};
   const eslintConfig = eslintConfigPath ? require(eslintConfigPath) : {};
 
-  await asyncPreload({ babel: babelConfig, eslint: eslintConfig });
+  preload({ babel: babelConfig, eslint: eslintConfig });
 
   await generateEslintReport(options, eslintConfig, ".");
 
