@@ -1,5 +1,8 @@
 # main (unreleased)
 
+# 1.0.0
+- Breaking change: the `asyncPreload` method was removed to ensure that dependencies will be installed before the program execution. The project now exports only the sync version of the `preload` method, and it is a default export. 
+
 # 0.3.1
 - Fix ESLint configuration in example project
 
