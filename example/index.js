@@ -9,10 +9,8 @@ const program = new Command();
 
 async function generateEslintReport({ absolutePath, fileContent, fileName }, config, outputDir) {
   const eslint = new ESLint({
-    cwd: absolutePath,
     overrideConfig: config,
     errorOnUnmatchedPattern: false,
-    resolvePluginsRelativeTo: resolve(),
     useEslintrc: false,
     cache: false,
   });
